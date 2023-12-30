@@ -18,13 +18,13 @@ namespace CountdownProject
 
         private static string playagain1;
         private static bool playagain = true;
-
+        private static bool settings = false;
         private static string backgroundcolor;
         static void Main(string[] args)
         {
-            GameFrames();
+            
             StartScreen();
-            BackgroundColorSelection();
+                      
 
             while (playagain == true)
             {
@@ -1132,6 +1132,10 @@ namespace CountdownProject
 
         static void StartScreen()
         {
+
+            Console.Clear();
+            GameFrames();
+
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.SetCursorPosition(34, 5);
             Console.WriteLine(@"                          __      __                   ");
@@ -1145,32 +1149,92 @@ namespace CountdownProject
             Console.WriteLine(@"\___/\____/\____/_/ /_/\__/\____/\____/|__/|__/_/ /_/ ");
             Console.ResetColor();
 
+            
+            Console.SetCursorPosition(48, 18);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("»PRESS ANY KEY TO START«");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(55, 20);
+            Console.WriteLine("»SETTINGS«");
+            Console.ResetColor();
+
+            int menuselection = 0;
 
             while (true)
             {
-                Console.SetCursorPosition(49, 18);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("»PRESS ANY KEY TO START«");
-                Console.ResetColor();
+                ConsoleKeyInfo cki;
+                cki = Console.ReadKey(true);
 
-                Thread.Sleep(1000);
-
-                Console.SetCursorPosition(49, 18);
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("»PRESS ANY KEY TO START«");
-
-                if (Console.KeyAvailable)
+                if (cki.Key == ConsoleKey.UpArrow)
                 {
-                    Console.ReadKey(true);
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.SetCursorPosition(48, 18);
+                    Console.WriteLine("»PRESS ANY KEY TO START«");
+                    Console.ResetColor();
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(55, 20);
+                    Console.WriteLine("»SETTINGS«");
+
+                    settings = false;
+                    menuselection = 0;
+                }
+
+                if (cki.Key == ConsoleKey.DownArrow)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(48, 18);
+                    Console.WriteLine("»PRESS ANY KEY TO START«");
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.SetCursorPosition(55, 20);
+                    Console.WriteLine("»SETTINGS«");
+                    Console.ResetColor();
+
+                    menuselection = 1;
+                }
+
+                if (menuselection == 0 && cki.Key == ConsoleKey.Enter)
+                {
                     break;
                 }
 
-                Thread.Sleep(1000);
+                if (menuselection == 1 && cki.Key == ConsoleKey.Enter)
+                {
+                    settings = true;
+                    break;
+                }
+
+            }
+
+            if(settings == true)
+            {
+                BackgroundColorSelection();
+            }                   
+
+            if (backgroundcolor == "darkblue")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+            }
+
+            if (backgroundcolor == "darkgreen")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+            }
+
+            if (backgroundcolor == "darkred")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+            }
+
+            if (backgroundcolor == "darkyellow")
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
             }
 
             Console.Clear();
-            Thread.Sleep(1000);
-
         }
 
 
@@ -1287,36 +1351,44 @@ namespace CountdownProject
             Console.SetCursorPosition(30, 8);
             Console.WriteLine("(Or press any key to continue with the current background colour)");
             Console.ResetColor();
+          
 
-            ConsoleKeyInfo keyInfo;
-
-            keyInfo = Console.ReadKey();
-
-            switch (keyInfo.Key)
+            while (true)
             {
 
-                case ConsoleKey.D1:
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                ConsoleKeyInfo keyInfo;
+                keyInfo = Console.ReadKey(true);
+
+                if (keyInfo.Key == ConsoleKey.D1)
+                {                   
                     backgroundcolor = "darkblue";
                     break;
-                case ConsoleKey.D2:
-                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                }
+
+                if (keyInfo.Key == ConsoleKey.D2)
+                {                 
                     backgroundcolor = "darkgreen";
                     break;
-                case ConsoleKey.D3:
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                }
+
+                if (keyInfo.Key == ConsoleKey.D3)
+                {
                     backgroundcolor = "darkred";
                     break;
-                case ConsoleKey.D4:
-                    Console.BackgroundColor = ConsoleColor.DarkYellow;
+                }
+
+                if (keyInfo.Key == ConsoleKey.D4)
+                {
                     backgroundcolor = "darkyellow";
                     break;
-                case ConsoleKey.Escape:
-                    Environment.Exit(0); // Exit the program if Esc key is pressed
+                }
+
+                if (keyInfo.Key == ConsoleKey.Escape)
+                {
+                    StartScreen();
                     break;
-                default:
-                    Console.Clear();     // Clear the console if an invalid key is pressed
-                    break;
+                }                 
+               
             }
 
 
